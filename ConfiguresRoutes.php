@@ -12,30 +12,26 @@
  * @see https://github.com/tenancy
  */
 
-namespace Tenancy\Affects\Routes\Listeners;
+namespace Tenancy\Affects\Routes;
 
 use Illuminate\Routing\Router;
-use Tenancy\Affects\Routes\Events\ConfigureRoutes;
+use Tenancy\Affects\Affect;
 use Tenancy\Concerns\DispatchesEvents;
-use Tenancy\Contracts\TenantAffectsApp;
-use Tenancy\Identification\Events\Switched;
 
-class ConfiguresRoutes implements TenantAffectsApp
+class ConfiguresRoutes extends Affect
 {
     use DispatchesEvents;
 
-    public function handle(Switched $event): ?bool
+    public function fire(): void
     {
         /** @var Router $router */
         $router = resolve(Router::class);
 
-        if ($event->tenant) {
-            $this->events()->dispatch(new ConfigureRoutes($event, $router));
+        if ($this->event->tenant) {
+            $this->events()->dispatch(new Events\ConfigureRoutes($this->event, $router));
         }
 
         $router->getRoutes()->refreshNameLookups();
         $router->getRoutes()->refreshActionLookups();
-
-        return null;
     }
 }

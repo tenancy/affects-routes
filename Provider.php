@@ -12,12 +12,11 @@
  * @see https://github.com/tenancy
  */
 
-namespace Tenancy\Affects\Routes\Providers;
+namespace Tenancy\Affects\Routes;
 
-use Tenancy\Affects\Routes\Listeners\ConfiguresRoutes;
 use Tenancy\Support\AffectsProvider;
 
-class ServiceProvider extends AffectsProvider
+class Provider extends AffectsProvider
 {
     protected $affects = [ConfiguresRoutes::class];
 }
